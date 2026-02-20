@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Search Results for "{{ term }}"</h1>
+
+{% if jobs %}
+    <table>
+        <thead>
+            <tr>
+                <th>Company</th>
+                <th>Position</th>
+                <th>Status</th>
+                <th>Date Applied</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for job in jobs %}
+            <tr>
+                <td>{{ job.company }}</td>
+                <td>{{ job.position }}</td>
+                <td class="status {{ job.status|lower }}">{{ job.status }}</td>
+                <td>{{ job.date_applied.strftime("%b %d, %Y") }}</td>
+                <td class="actions">
+                    <a href="{{ url_for('main.edit_job', job_id=job.id) }}">Edit</a>
+                    <a href="{{ url_for('main.delete_job', job_id=job.id) }}">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% else %}
+    <p>No results found.</p>
+{% endif %}
+
+{% endblock %}

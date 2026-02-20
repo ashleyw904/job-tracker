@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Edit Job Application</h1>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    <p>
+        {{ form.company.label }}<br>
+        {{ form.company(size=40) }}
+    </p>
+
+    <p>
+        {{ form.position.label }}<br>
+        {{ form.position(size=40) }}
+    </p>
+
+    <p>
+        {{ form.date_applied.label }}<br>
+        {{ form.date_applied() }}
+    </p>
+
+    <p>
+        {{ form.status.label }}<br>
+        {{ form.status(size=40) }}
+    </p>
+
+    <p>
+    {{ form.notes.label }}<br>
+    {{ form.notes(rows=4, cols=40) }}
+    </p>
+
+    <p><button type="submit">Save Changes</button></p>
+</form>
+
+{% endblock %}

@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 style="margin-bottom: 25px;">Dashboard</h1>
+
+<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 50px; margin-bottom: 30px;">
+
+    <!-- LEFT SIDE -->
+    <div style="flex: 1;">
+
+        <!-- Left column heading to balance layout -->
+        <h2 style="margin-bottom: 15px;">Overview</h2>
+
+        <!-- Total Applications -->
+        <div style="font-size: 20px; font-weight: bold; margin-bottom: 15px;">
+            Total Applications: {{ total }}
+        </div>
+
+        <!-- Status counts -->
+        <div style="margin-bottom: 25px; line-height: 1.6;">
+            <strong>Applied:</strong> {{ applied }} <br>
+            <strong>Interviewing:</strong> {{ interviewing }} <br>
+            <strong>Offers:</strong> {{ offer }} <br>
+            <strong>Rejected:</strong> {{ rejected }}
+        </div>
+
+        <!-- Search bar -->
+        <form action="{{ url_for('main.search') }}" method="GET" style="margin-bottom: 20px;">
+            <input type="text" name="q" placeholder="Search by company or position" size="35">
+            <button type="submit">Search</button>
+        </form>
+
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div style="flex: 1;">
+
+        <h2 style="margin-bottom: 10px;">Status Breakdown</h2>
+
+        <div style="width: 300px;">
+            <canvas id="statusChart"></canvas>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Table -->
+{% if jobs %}
+    <table>
+        <thead>
+            <tr>
+                <th>Company</th>
+                <th>Position</th>
+                <th>Status</th>
+                <th>Date Applied</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for job in jobs %}
+            <tr>
+                <td>{{ job.company }}</td>
+                <td>{{ job.position }}</td>
+                <td class="status {{ job.status|lower }}">{{ job.status }}</td>
+                <td>{{ job.date_applied.strftime("%b %d, %Y") }}</td>
+                <td class="actions">
+                    <a href="{{ url_for('main.view_job', job_id=job.id) }}">View</a>
+                    <a href="{{ url_for('main.edit_job', job_id=job.id) }}">Edit</a>
+                    <a href="{{ url_for('main.delete_job', job_id=job.id) }}">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No job applications yet.</p>
+{% endif %}
+
+<!-- CHART SCRIPT -->
+<script>
+window.onload = function() {
+    const canvas = document.getElementById('statusChart');
+    if (!canvas) {
+        console.error("Canvas not found");
+        return;
+    }
+
+    const ctx = canvas.getContext('2d');
+
+    const statusChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Applied', 'Interviewing', 'Offer', 'Rejected'],
+            datasets: [{
+                data: [{{ applied }}, {{ interviewing }}, {{ offer }}, {{ rejected }}],
+                backgroundColor: [
+                    '#007bff',
+                    '#ff9800',
+                    '#28a745',
+                    '#dc3545'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+};
+</script>
+
+{% endblock %}

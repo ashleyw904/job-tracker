@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Add Job Application</h1>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    <p>{{ form.company.label }}<br>{{ form.company() }}</p>
+    <p>{{ form.position.label }}<br>{{ form.position() }}</p>
+    <p>{{ form.date_applied.label }}<br>{{ form.date_applied() }}</p>
+    <p>{{ form.status.label }}<br>{{ form.status() }}</p>
+    <p>
+    {{ form.notes.label }}<br>
+    {{ form.notes(rows=4, cols=40) }}
+    </p>
+    
+    <p>{{ form.submit() }}</p>
+</form>
+
+{% endblock %}
