@@ -6,10 +6,10 @@ from app.forms import JobForm
 # main app routes
 main = Blueprint('main', __name__)
 
-# dashboard (list all jobs)
+# dashboard
 @main.route("/")
 def dashboard():
-    jobs = JobApplication.query.all()
+    jobs = JobApplication.query.order_by(JobApplication.date_applied.desc()).limit(5).all()
 
     applied = JobApplication.query.filter_by(status="Applied").count()
     interviewing = JobApplication.query.filter_by(status="Interviewing").count()
@@ -93,3 +93,9 @@ def delete_job(job_id):
 def view_job(job_id):
     job = JobApplication.query.get_or_404(job_id)
     return render_template("view_job.html", job=job)
+
+# show all jobs
+@main.route("/all-jobs")
+def all_jobs():
+    jobs = JobApplication.query.order_by(JobApplication.date_applied.desc()).all()
+    return render_template("all_jobs.html", jobs=jobs)
