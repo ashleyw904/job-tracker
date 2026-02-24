@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>All Jobs</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Company</th>
+            <th>Position</th>
+            <th>Status</th>
+            <th>Date Applied</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for job in jobs %}
+        <tr>
+            <td>{{ job.company }}</td>
+            <td>{{ job.position }}</td>
+            <td class="status {{ job.status|lower }}">{{ job.status }}</td>
+            <td>{{ job.date_applied.strftime("%Y-%m-%d") }}</td>
+            <td class="actions">
+                <a href="{{ url_for('main.edit_job', job_id=job.id) }}">Edit</a>
+                <a href="{{ url_for('main.delete_job', job_id=job.id) }}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

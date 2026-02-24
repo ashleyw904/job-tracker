@@ -11,21 +11,40 @@
             background-color: #f7f7f7;
         }
 
-        nav {
-            margin-bottom: 20px;
+        /* NAVBAR STYLES */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #e5e5e5;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            margin-bottom: 25px;
         }
 
-        nav a {
+        .nav-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .nav-right a {
+            margin-left: 20px;
             text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-right a:hover {
             color: #007bff;
-            font-weight: bold;
-            margin-right: 15px;
         }
 
-        nav a:hover {
-            text-decoration: underline;
-        }
-
+        /* TABLE + STATUS COLORS */
         table {
             width: 100%;
             border-collapse: separate;
@@ -70,7 +89,6 @@
             opacity: 0.85;
         }
 
-        /* Status colors */
         .status.applied {
             color: #007bff;
             font-weight: bold;
@@ -95,12 +113,18 @@
 
 <body>
 
-    <nav>
-        <a href="{{ url_for('main.dashboard') }}">Dashboard</a>
-        <a href="{{ url_for('main.add_job') }}">Add Job</a>
-    </nav>
+    <!--NAVBAR-->
+    <nav class="navbar">
+        <div class="nav-left">
+            <span class="nav-title">Job Tracker</span>
+        </div>
 
-    <hr>
+        <div class="nav-right">
+            <a href="{{ url_for('main.dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('main.add_job') }}">Add Job</a>
+            <a href="{{ url_for('main.all_jobs') }}">All Jobs</a>
+        </div>
+    </nav>
 
     {% block content %}
     {% endblock %}

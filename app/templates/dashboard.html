@@ -8,7 +8,7 @@
     <!-- LEFT SIDE -->
     <div style="flex: 1;">
 
-        <!-- Left column heading to balance layout -->
+        <!-- Left column heading -->
         <h2 style="margin-bottom: 15px;">Overview</h2>
 
         <!-- Total Applications -->
@@ -78,42 +78,10 @@
     <p>No job applications yet.</p>
 {% endif %}
 
-<!-- CHART SCRIPT -->
 <script>
-window.onload = function() {
-    const canvas = document.getElementById('statusChart');
-    if (!canvas) {
-        console.error("Canvas not found");
-        return;
-    }
-
-    const ctx = canvas.getContext('2d');
-
-    const statusChart = new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: ['Applied', 'Interviewing', 'Offer', 'Rejected'],
-            datasets: [{
-                data: [{{ applied }}, {{ interviewing }}, {{ offer }}, {{ rejected }}],
-                backgroundColor: [
-                    '#007bff',
-                    '#ff9800',
-                    '#28a745',
-                    '#dc3545'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'bottom'
-                }
-            }
-        }
-    });
-};
+    window.chartData = [{{ applied }}, {{ interviewing }}, {{ offer }}, {{ rejected }}];
 </script>
+
+<script src="{{ url_for('static', filename='chart.js') }}"></script>
 
 {% endblock %}
